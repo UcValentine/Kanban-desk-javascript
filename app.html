@@ -141,6 +141,40 @@
           column.appendChild(title);
       }
 
+      function createNewTask(){
+          const mainColumn = document.getElementById('taskColumn');
+          let task = document.createElement('div');
+          let title = document.createElement('p');
+          let desc = document.createElement('p');
+
+          numberOfTasks++;
+
+          //set atributes
+          task.setAttribute('id', `task-${numberOfTasks}`);
+          task.classList.add('task');
+          task.setAttribute('draggable', true);
+
+          title.classList.add('task-title');
+          desc.classList.add('task-desc');
+
+          mainColumn.appendChild(task);
+          task.appendChild(title);
+          task.appendChild(desc);
+
+          task.addEventListener('dragstart', onDragStart);
+
+          //initialising Edit mode
+          createEditMode(task, [title, desc], [taskTitleInput.value, taskDescInput.value]);
+
+          //set task content and giving it a default values
+          taskTitleInput.value ? title.textContent = taskTitleInput.value : title.textContent = 'New Task Title';
+          taskDescInput.value ? desc.textContent = taskDescInput.value : desc.textContent = 'Description';
+
+          //clear inputs
+          taskTitleInput.value = '';
+          taskDescInput.value = '';
+      }
+
     </script>
 </body>
 </html>
