@@ -6,15 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kanban desk</title>
     <style>
-      html, body{
+      html, body {
           width: 100vw;
       }
-      .container{
+      .container {
           width: 100%;
           display: flex;
       }
-
-      .handlers{
+      .handlers {
         display: flex;
         margin: 2rem 0;
         flex-direction: column;
@@ -39,7 +38,7 @@
         color: #000000;
         background-color: #9f9d9a;
       }  
-      input{
+      input {
         margin: 4px 2px;
         padding: 10px 24px;
       }
@@ -56,12 +55,27 @@
         margin: 5px;
       }
 
-      .taskColumnTitle{
+      .taskColumnTitle {
         font-size: 20px;
         text-align: center;
         background: #9f9d9b;
         padding: 15px;
         margin: 0;
+      }
+      .task {
+        background-color: #cbc8be;
+        text-align: center;
+        font-weight: normal;
+        margin: 1rem;
+        padding: 1rem;
+      }
+
+      .task-title {
+        font-weight: 500;
+      }
+      .edit {
+        display: flex;
+        justify-content: space-between;
       }
     </style>
 </head>
@@ -174,6 +188,76 @@
           taskTitleInput.value = '';
           taskDescInput.value = '';
       }
+
+      //Edit Task
+      function createEditMode(editParentEl, editedElementsArr, inputsInitValue){
+          let buttonsContainer = document.createElement('div');
+          let openEditModeButton = document.createElement('button');
+          let closeEditModeButton = document.createElement('button');
+          let saveChangesButton = document.createElement('button');
+
+          //Create Edit buttons
+          buttonsContainer.classList.add('edit-buttons');
+          saveChangesButton.classList.add('edit-buttons-save');
+          closeEditModeButton.classList.add('edit-buttons-close');
+          openEditModeButton.classList.add('edit-buttons-open');
+
+          openEditModeButton.textContent = 'Edit';
+          closeEditModeButton.textContent = 'Close';
+          saveChangesButton.textContent = 'Save';
+
+          buttonsContainer.appendChild(saveChangesButton);
+          buttonsContainer.appendChild(openEditModeButton);
+          buttonsContainer.appendChild(closeEditModeButton);
+          editParentEl.appendChild(buttonsContainer);
+
+          //create edit inputs and set their initial value
+          editedElementsArr.forEach((element, index) => {
+              let newInput = document.createElement('input');
+              newInput.classList.add('edit-input');
+
+              newInput.value = inputsInitValue[index];
+              element.after(newInput);
+          });
+
+          editParentEl.addEventListener('click', function(e){
+              if (e.target.classList.contains('edit-buttons-open'))
+                  openEditMode(editParentEl);
+
+              if (e.target.classList.contains('edit-buttons-close'))
+                  closeEditMode(editParentEl);
+
+              if (e.target.classList.contains('edit-buttons-save'))
+                  saveChanges(editParentEl, ['.task-title', '.task-desc']);
+          })
+      }
+
+      function saveChanges(parentEl, editElClassArr){
+          let currentElID = parentEl.getAttribute('id');
+
+          editElClassArr.forEach( elClass => {
+              let editedElement = document.querySelector(`#${currentElID} ${elClass}`);
+              let newValue = document.querySelector(`#${currentElID} ${elClass} + .edit-input`);
+
+              if(newValue.value)
+                  editedElement.textContent = newValue.value;
+          });
+
+          closeEditMode(parentEl);
+      }
+
+      function openEditMode(parentEl){
+          parentEl.classList.add('edit-mode');
+      }
+
+      function closeEditMode(parentEl){
+          parentEl.classList.remove('edit-mode');
+      }
+
+      document.getElementById('taskColumn').addEventListener('dragover', onDragOver);
+      document.getElementById('taskColumn').addEventListener('drop', onDrop);
+      addColumnButton.addEventListener('click', createNewColumn);
+      addColumnTask.addEventListener('click', createNewTask);
 
     </script>
 </body>
