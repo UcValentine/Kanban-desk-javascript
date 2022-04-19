@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban desk</title>
+    <style>
+      html, body{
+          width: 100vw;
+      }
+      .container{
+          width: 100%;
+          display: flex;
+      }
+
+      .handlers{
+        display: flex;
+        margin: 2rem 0;
+        flex-direction: column;
+        flex-wrap: wrap;
+        line-height: 2;
+        margin: 5px;
+        align-content: center;
+      }
+      button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        padding: 10px 24px;
+        cursor: pointer;
+      }
+      button:hover {
+        color: #000000;
+        background-color: #9f9d9a;
+      }  
+      input{
+        margin: 4px 2px;
+        padding: 10px 24px;
+      }
+
+      .column {
+        width: 100%;
+        border: 1px solid #9f9d9a;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        font-family: sans-serif;
+        font-weight: bold;
+        padding-bottom: 1rem;
+        margin: 5px;
+      }
+
+      .taskColumnTitle{
+        font-size: 20px;
+        text-align: center;
+        background: #9f9d9b;
+        padding: 15px;
+        margin: 0;
+      }
+    </style>
+</head>
+<body>
+  <div class="handlers">
+    <div>
+      <input id="columnName" type="text" placeholder="Column name...">
+      <button id="addColumnBtn">Add Column</button>
+    </div>
+      <div>
+        <input id="taskTitle" type="text" placeholder="Task title...">
+        <input id="taskDesc" type="text" placeholder="Task Description...">
+        <button id="addTaskBtn">Add task</button>
+      </div>
+    </div> 
+
+    <div class="container">
+        <div id="taskColumn" class="column">
+          <p class="taskColumnTitle">To Do</p>
+        </div>
+      </div>
+    <script>
+      
+      var columnNameInput = document.getElementById('columnName');
+      var addColumnButton = document.getElementById('addColumnBtn');
+      var taskTitleInput = document.getElementById('taskTitle');
+      var taskDescInput = document.getElementById('taskDesc');
+      var addColumnTask = document.getElementById('addTaskBtn');
+
+    </script>
+</body>
+</html>
