@@ -90,6 +90,56 @@
       var taskTitleInput = document.getElementById('taskTitle');
       var taskDescInput = document.getElementById('taskDesc');
       var addColumnTask = document.getElementById('addTaskBtn');
+      var tasks = document.querySelectorAll('.task');
+      var numberOfTasks = 0;
+
+      //drag and drop functions
+      function onDragOver(ev) {
+          ev.preventDefault();
+      }
+      function onDragStart(ev) {
+          ev
+              .dataTransfer
+              .setData('text', ev.target.id);
+      }
+
+      function onDrop(ev) {
+          const id = ev
+              .dataTransfer
+              .getData('text');
+          const draggableElement = document.getElementById(id);
+          const dropzone = ev.target;
+
+         //making sure the user doesn't drop element somewhere else but in the column
+          if(dropzone.classList.contains('column'))
+              dropzone.appendChild(draggableElement);
+
+          ev
+          .dataTransfer
+          .clearData();
+      }
+
+       //Creating elements
+       function createNewColumn(){
+          const parent = document.querySelector('.container');
+          let column = document.createElement('div');
+          let title = document.createElement('p');
+
+          //Setting new task name
+          columnNameInput.value ? title.textContent = columnNameInput.value : title.textContent = 'New Column';
+
+          //Clear the input
+          columnNameInput.value = '';
+
+          column.classList.add('column');
+          title.classList.add('taskColumnTitle');
+
+          column.addEventListener('dragover', onDragOver);
+          column.addEventListener('drop', onDrop);
+
+          parent.appendChild(column);
+          column.appendChild(title);
+      }
 
     </script>
 </body>
